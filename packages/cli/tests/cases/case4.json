@@ -1,0 +1,36 @@
+{
+    "target": {
+        "provider": "api",
+        "repository": {
+            "name": "modlines-demo"
+        }
+    },
+    "policy": {
+        "checks": {
+            "bugs": true,
+            "performance": true,
+            "bestPractices": true
+        },
+        "modifiedLinesOnly": true,
+        "confidence": {
+            "enabled": true,
+            "minimum": 0.6
+        },
+        "dedupeAcrossFiles": {
+            "enabled": true,
+            "threshold": 0.85
+        },
+        "prompts": {
+            "systemPrompt": "Strict JSON only. Only comment on modified lines.",
+            "additional": []
+        }
+    },
+    "previousComments": [],
+    "files": [
+        {
+            "path": "src/math.ts",
+            "changeType": "edit",
+            "diff": "diff --git a/src/math.ts b/src/math.ts\nindex 111..222 100644\n--- a/src/math.ts\n+++ b/src/math.ts\n@@ -1,7 +1,7 @@\n export function div(a: number, b: number) {\n-  return a / b;\n+  return a / (b as any);\n }\n\n // legacy: lots of old functions below not touched\n export function legacy1() { /* ... */ }\n"
+        }
+    ]
+}

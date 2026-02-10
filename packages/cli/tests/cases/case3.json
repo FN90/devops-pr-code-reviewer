@@ -1,0 +1,43 @@
+{
+    "target": {
+        "provider": "api",
+        "repository": {
+            "name": "perf-demo"
+        }
+    },
+    "policy": {
+        "checks": {
+            "bugs": true,
+            "performance": true,
+            "bestPractices": true
+        },
+        "modifiedLinesOnly": true,
+        "confidence": {
+            "enabled": true,
+            "minimum": 0.55
+        },
+        "dedupeAcrossFiles": {
+            "enabled": true,
+            "threshold": 0.85
+        },
+        "prompts": {
+            "systemPrompt": "Strict JSON only. Focus on correctness, performance, maintainability.",
+            "additional": [
+                "For performance findings, include a clear alternative approach."
+            ]
+        }
+    },
+    "previousComments": [],
+    "files": [
+        {
+            "path": "src/search.ts",
+            "changeType": "edit",
+            "diff": "diff --git a/src/search.ts b/src/search.ts\nindex 111..222 100644\n--- a/src/search.ts\n+++ b/src/search.ts\n@@ -1,12 +1,13 @@\n export function findUsers(users, q) {\n-  return users.filter(u => u.name.toLowerCase().includes(q.toLowerCase()));\n+  const res = [];\n+  for (const u of users) {\n+    if (u.name.toLowerCase().includes(q.toLowerCase())) res.push(u);\n+  }\n+  return res;\n }\n"
+        },
+        {
+            "path": "src/cache.ts",
+            "changeType": "edit",
+            "diff": "diff --git a/src/cache.ts b/src/cache.ts\nindex 111..222 100644\n--- a/src/cache.ts\n+++ b/src/cache.ts\n@@ -1,8 +1,9 @@\n let cache = {};\n export function get(k) {\n   return cache[k];\n }\n export function set(k, v) {\n+  // TODO: handle expiration\n   cache[k] = v;\n }\n"
+        }
+    ]
+}

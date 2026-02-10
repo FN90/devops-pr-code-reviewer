@@ -1,0 +1,43 @@
+{
+    "target": {
+        "provider": "api",
+        "repository": {
+            "name": "edge-demo"
+        }
+    },
+    "policy": {
+        "checks": {
+            "bugs": true,
+            "performance": true,
+            "bestPractices": true
+        },
+        "modifiedLinesOnly": true,
+        "confidence": {
+            "enabled": true,
+            "minimum": 0.5
+        },
+        "dedupeAcrossFiles": {
+            "enabled": true,
+            "threshold": 0.85
+        },
+        "prompts": {
+            "systemPrompt": "Strict JSON only. If uncertain, still return valid JSON with conservative findings.",
+            "additional": [
+                "Do not hallucinate file content not present in diff."
+            ]
+        }
+    },
+    "previousComments": [],
+    "files": [
+        {
+            "path": "src/config.ts",
+            "changeType": "edit",
+            "diff": "diff --git a/src/config.ts b/src/config.ts\nindex 111..222 100644\n--- a/src/config.ts\n+++ b/src/config.ts\n@@ -1,4 +1,6 @@\n export const config = {\n   env: process.env.NODE_ENV,\n+  // WARNING: temporary hardcode\n+  apiKey: \"sk-THIS_SHOULD_NOT_BE_HERE\",\n };\n"
+        },
+        {
+            "path": "README.md",
+            "changeType": "edit",
+            "diff": "diff --git a/README.md b/README.md\nindex 111..222 100644\n--- a/README.md\n+++ b/README.md\n@@ -1,3 +1,5 @@\n # Project\n+\n+Use the API key above for testing.\n"
+        }
+    ]
+}

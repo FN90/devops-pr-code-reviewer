@@ -1,0 +1,21 @@
+﻿{
+  "name": "@devops-ai-reviewer/cli",
+  "version": "0.1.0",
+  "main": "dist/cli.js",
+  "types": "dist/cli.d.ts",
+  "bin": {
+    "review-cli": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@devops-ai-reviewer/core": "0.1.0",
+    "openai": "^4.80.0",
+    "simple-git": "^3.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.2",
+    "typescript": "^5.7.3"
+  }
+}

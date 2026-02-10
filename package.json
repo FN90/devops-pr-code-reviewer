@@ -1,0 +1,25 @@
+﻿{
+  "name": "devops-ai-reviewer",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build:core && npm run build:ado && npm run build:cli && npm run build:api",
+    "build:core": "npm -w @devops-ai-reviewer/core run build",
+    "build:ado": "npm -w @devops-ai-reviewer/ado-task run build",
+    "build:cli": "npm -w @devops-ai-reviewer/cli run build",
+    "build:api": "npm -w @devops-ai-reviewer/api run build",
+    "test": "npm -w @devops-ai-reviewer/core run test",
+    "lint": "npm run lint --workspaces --if-present",
+    "package:adoext": "npm -w @devops-ai-reviewer/ado-task run package:extension"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "ts-node": "^10.9.2",
+    "ts-jest": "^29.2.5",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.14"
+  }
+}

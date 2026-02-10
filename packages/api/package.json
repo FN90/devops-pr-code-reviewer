@@ -1,0 +1,24 @@
+{
+  "name": "@devops-ai-reviewer/api",
+  "version": "0.1.0",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "@devops-ai-reviewer/core": "0.1.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^17.2.3",
+    "express": "^4.19.2",
+    "openai": "^4.80.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.7.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,81 @@
+﻿{
+    "manifestVersion": 1,
+    "id": "ADOCodeReview",
+    "version": "1.0.1",
+    "name": "DevOps AI Code Reviewer",
+    "publisher": "AITools",
+    "public": false,
+    "shortDescription": "AI code review task for Azure DevOps Pull Requests (OpenAI / Azure OpenAI).",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Automate pull request reviews in Azure DevOps using OpenAI or Azure OpenAI APIs. This bot analyzes code changes, offers suggestions, detects potential bugs, and ensures adherence to coding standards.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "tags": [
+        "PR",
+        "Code Analysis",
+        "Open AI",
+        "OpenAI",
+        "Code Quality",
+        "ChatGPT",
+        "Quality Assurance",
+        "Pull Request",
+        "Pipeline",
+        "Code Inspection",
+        "Peer Review",
+        "Code Review",
+        "AI"
+    ],
+    "icons": {
+        "default": "assets/logo.png"
+    },
+    "branding": {
+        "color": "rgb(138, 43, 226)",
+        "theme": "dark"
+    },
+    "links": {
+        "support": {
+            "uri": "https://github.com/FN90/devops-ai-reviewer",
+            "version": "1.0.0"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/FN90/devops-ai-reviewer"
+    },
+    "screenshots": [],
+    "content": {
+        "details": {
+            "path": "assets/overview.md"
+        }
+    },
+    "files": [
+        {
+            "path": "tasks/ADOCodeReview"
+        },
+        {
+            "path": "assets/overview.md",
+            "addressable": true
+        },
+        {
+            "path": "assets/logo.png",
+            "addressable": true
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "tasks/ADOCodeReview"
+            }
+        }
+    ]
+}

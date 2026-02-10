@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+*.visx
+out/azure-devops-extension/*.vsix
+out/azure-devops-extension/vss-extension.json
+out
