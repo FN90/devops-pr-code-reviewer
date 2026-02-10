@@ -229,10 +229,38 @@ steps:
 - task: ADOCodeReview@2
   inputs:
     api_key: $(OPENAI_API_KEY)
-    ai_model: gpt-4o-mini
+
+    # OpenAI model (if NOT using Azure OpenAI)
+    ai_model: 'gpt-5.1'   # start with a known-available model; change after verification
+
+    # Comment mode
+    comment_mode: file
+
+    # Max finding per file
+    max_findings_per_file: 3
+
+    # Enable checks
     bugs: true
     performance: true
     best_practices: true
+
+    # File filtering (use pipeline variables)
+    file_includes: '$(file_includes)'
+    file_excludes: '$(file_excludes)'
+
+    # Review behavior
+    modified_lines_only: false
+    comment_line_correction: true
+    allow_requeue: true
+
+    # Guardrails / noise control
+    confidence_mode: true
+    confidence_minimum: '0.90'
+    dedupe_across_files: true
+    dedupe_across_files_threshold: '0.85'
+
+    # Logging
+    verbose_logging: true
 ```
 
 ### Supported Features
@@ -280,6 +308,9 @@ This applies consistently across:
 * ✅ Easy local testing (API + CLI)
 * ✅ Safe enterprise adoption path (ADO task)
 * ✅ Clear evolution path (GitHub, GitLab, Bitbucket)
+
+## How to Package the ADO Extension
+Refer to the [How to Package Guideline](HowToPackage.md)
 
 ---
 

@@ -4,4 +4,4 @@ dist/
 *.visx
 out/azure-devops-extension/*.vsix
 out/azure-devops-extension/vss-extension.json
-out
+out/tasks

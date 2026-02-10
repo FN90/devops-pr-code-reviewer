@@ -1,0 +1,204 @@
+﻿{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "d3b07384-d9a7-4f3b-8a1d-6e5f3d2b5c3a",
+    "name": "ADOCodeReview",
+    "friendlyName": "DevOps AI Code Reviewer",
+    "description": "Complete a Code Review using OpenAI",
+    "category": "Utility",
+    "author": "Fahmi Ncibi",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 1
+    },
+    "instanceNameFormat": "DevOps AI Code Reviewer",
+    "inputs": [
+        {
+            "name": "max_findings_per_file",
+            "type": "string",
+            "label": "Max findings per file",
+            "defaultValue": "0",
+            "required": false,
+            "helpMarkDown": "Limits the number of findings shown per file in `file` or `pr_summary` modes.\n\n- `0` = unlimited\n- Recommended: 3–5 for large PRs"
+        },
+        {
+            "name": "comment_mode",
+            "type": "pickList",
+            "label": "Comment mode",
+            "defaultValue": "file",
+            "required": false,
+            "options": {
+                "file": "File-level (recommended)",
+                "inline": "Inline (per finding / per line)",
+                "pr_summary": "PR summary only (single comment)"
+            },
+            "helpMarkDown": "## Comment mode\n\nChoose how the task publishes results to the Pull Request.\n\n- **file (default / recommended):** One thread per file. Best UX, least noise.\n- **inline:** One thread per finding (closest to a human reviewer style).\n- **pr_summary:** A single PR-level summary comment only (high signal, low noise).\n\n> Tip: Start with **file**, then switch to **inline** only if your team wants strict review comments."
+        },
+        {
+            "name": "api_key",
+            "type": "string",
+            "label": "OpenAI API Key",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "API Key for OpenAI API or Azure OpenAI endpoint."
+        },
+        {
+            "name": "api_version",
+            "type": "string",
+            "label": "Azure OpenAI API Version",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Azure OpenAI API Version. e.g., '2024-10-21'. See https://learn.microsoft.com/en-us/azure/ai-services/openai/api-version-deprecation."
+        },
+        {
+            "name": "api_endpoint",
+            "type": "string",
+            "label": "Azure OpenAI Service Endpoint",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Endpoint of Azure OpenAI Service. e.g., 'https://my-foundry-project.openai.azure.com/'"
+        },
+        {
+            "name": "ai_model",
+            "type": "pickList",
+            "label": "OpenAI API Model",
+            "defaultValue": "o4-mini",
+            "options": {
+                "o4-mini": "o4-mini",
+                "o3-mini": "o3-mini",
+                "o1-mini": "o1-mini",
+                "o1-preview": "o1-preview",
+                "o1": "o1",
+                "gpt-4o": "gpt-4o",
+                "gpt-4": "gpt-4",
+                "gpt-3.5-turbo": "gpt-3.5-turbo"
+            },
+            "helpMarkDown": "## OpenAI API Model Configuration\n\n### Description\nChoose the OpenAI API model for code analysis. The selected model determines the depth and capabilities of the code review performed by OpenAI. If using Azure OpenAI services, this identifies the deployment.\n\n### Options\n- **gpt-4-1106-preview:** Preview version of GPT-4 released on June 11, 202x.\n- **gpt-4-vision-preview:** Preview version of GPT-4 with enhanced vision capabilities.\n- **gpt-4:** Latest stable release of GPT-4.\n- **gpt-4-0314:** GPT-4 version released on March 14, 202x.\n- **gpt-4-0613:** GPT-4 version released on June 13, 202x.\n- **gpt-4-32k:** GPT-4 version with a 32k parameter size.\n- **gpt-4-32k-0314:** GPT-4 version with 32k parameters, released on March 14, 202x.\n- **gpt-4-32k-0613:** GPT-4 version with 32k parameters, released on June 13, 202x.\n- **gpt-3.5-turbo-1106:** Preview version of GPT-3.5 Turbo released on November 6, 202x.\n- **gpt-3.5-turbo:** Latest stable release of GPT-3.5 Turbo.\n- **gpt-3.5-turbo-16k:** GPT-3.5 Turbo version with a 16k parameter size.\n- **gpt-3.5-turbo-0301:** GPT-3.5 Turbo version released on March 1, 202x.\n- **gpt-3.5-turbo-0613:** GPT-3.5 Turbo version released on June 13, 202x.\n- **gpt-3.5-turbo-16k-0613:** GPT-3.5 Turbo version with 16k parameters, released on June 13, 202x.\n\n### Default Value\nThe default OpenAI API model is set to **gpt-3.5-turbo**.\n\n Choose the model that best suits your code review requirements."
+        },
+        {
+            "name": "bugs",
+            "type": "boolean",
+            "label": "Check for bugs",
+            "defaultValue": false,
+            "helpMarkDown": "Specify whether to enable bug checking during the code review process.\n\n- Set to `true` to perform bug checks.\n- Set to `false` to skip bug checks.\n\nBug checking helps identify and address potential issues in the code. Default value is `true`."
+        },
+        {
+            "name": "performance",
+            "type": "boolean",
+            "label": "Check for performance problems",
+            "defaultValue": false,
+            "helpMarkDown": "Specify whether to include performance checks during the code review process.\n\n- Set to `true` to perform performance checks.\n- Set to `false` to skip performance checks.\n\nEnabling performance checks helps identify and address potential performance-related issues in the code. Default value is `true`."
+        },
+        {
+            "name": "best_practices",
+            "type": "boolean",
+            "label": "Check for missed best practices",
+            "defaultValue": false,
+            "helpMarkDown": "Specify whether to include checks for missed best practices during the code review process.\n\n- Set to `true` to perform best practices checks.\n- Set to `false` to skip best practices checks.\n\nEnabling best practices checks helps ensure adherence to coding standards and identifies areas for improvement. Default value is `true`."
+        },
+        {
+            "name": "modified_lines_only",
+            "type": "boolean",
+            "label": "Only check modified lines",
+            "defaultValue": true,
+            "helpMarkDown": "Specify whether to check modified lines only. Default value is `true`."
+        },
+        {
+            "name": "file_extensions",
+            "type": "string",
+            "label": "File extensions to include",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Deprecated: Use file_includes instead.  Specify a comma-separated list of file extensions for which you want to perform a code review. This input helps narrow down the scope of the code review to specific file types.\n\n**Example:**\n```plaintext\n\".js,.ts,.css,.html\"\n```\n\nMake sure to provide the file extensions without spaces after the commas."
+        },
+        {
+            "name": "file_extension_excludes",
+            "type": "string",
+            "label": "File extensions to exclude",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Deprecated: Use file_excludes instead.  Specify a comma-separated list of file extensions that should be excluded from code reviews.\n\n**Example:**\n```plaintext\n\".js,.ts,.css,.html\"\n```\n\nMake sure to provide the file extensions without spaces after the commas."
+        },
+        {
+            "name": "file_includes",
+            "type": "string",
+            "label": "Files to include",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "## Files to Include Configuration\n\n### Description\nSpecify a comma-separated list of glob-supported file names to be reviewed.\n\n### Format\nProvide a list of file names separated by commas. For example: `file1.js, *.py, secret.txt`\n\n### Default Value\nIf no files are specified, all files will be considered for code review by default."
+        },
+        {
+            "name": "file_excludes",
+            "type": "string",
+            "label": "Files to exclude",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "## Files to Exclude Configuration\n\n### Description\nSpecify a comma-separated list of glob-supported file names that should be excluded from code reviews. This is useful for excluding sensitive files or preventing certain files from being reviewed.\n\n### Format\nProvide a list of file names separated by commas. For example: `file1.js, *.py, secret.txt`\n\n### Default Value\nIf no files are specified, all files will be considered for code review by default."
+        },
+        {
+            "name": "additional_prompts",
+            "type": "string",
+            "label": "Additional Prompts",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify additional OpenAI prompts as a comma-separated list to enhance the code review process.\n\n- Add multiple prompts separated by commas.\n- These prompts will be used in conjunction with the main code review prompts.\n\n**Example:**\n```plaintext\nFix variable naming, Ensure consistent indentation, Review error handling approach\n```"
+        },
+        {
+            "name": "verbose_logging",
+            "type": "boolean",
+            "label": "Verbose Logging",
+            "defaultValue": false,
+            "helpMarkDown": "Specify to show additional debug logging. Default value is `false`."
+        },
+        {
+            "name": "comment_line_correction",
+            "type": "boolean",
+            "label": "Enable comment line correction",
+            "defaultValue": true,
+            "helpMarkDown": "Correct comment line number and offsets."
+        },
+        {
+            "name": "allow_requeue",
+            "type": "boolean",
+            "label": "Allow reviewing on requeues",
+            "defaultValue": false,
+            "helpMarkDown": "Set to true to allow reviewing on requeues.  Default value is `false`."
+        },
+        {
+            "name": "confidence_mode",
+            "type": "boolean",
+            "label": "Enable confidence mode (Experimental)",
+            "defaultValue": false,
+            "helpMarkDown": "Set to true to limit comments to those meeting the minimum confidence score.  Use in combination with the 'Minimum confidence score' input."
+        },
+        {
+            "name": "confidence_minimum",
+            "type": "string",
+            "label": "Minimum confidence score (Experimental)",
+            "defaultValue": "0.9",
+            "helpMarkDown": "Set the minimum confidence (0..1) required for comments to appear. Example: 0.9."
+        },
+        {
+            "name": "dedupe_across_files",
+            "type": "boolean",
+            "label": "Enable deduplication of comments across files",
+            "defaultValue": false,
+            "helpMarkDown": "Set to true to prevent the same comment from appearing multiple times across different files in the code review. Use in combination with `dedupe_across_files_threshold`."
+        },
+        {
+            "name": "dedupe_across_files_threshold",
+            "type": "string",
+            "label": "Dedupe similarity threshold (0..1)",
+            "defaultValue": "0.85",
+            "helpMarkDown": "Similarity threshold (0..1) used to deduplicate repeated findings across files. Example: 0.85."
+        }
+    ],
+    "execution": {
+        "Node16": {
+            "target": "dist/main.js"
+        },
+        "Node20_1": {
+            "target": "dist/main.js"
+        }
+    }
+}

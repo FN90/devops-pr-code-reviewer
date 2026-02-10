@@ -1,0 +1,10 @@
+{
+  "name": "tdp-code-review-task-runtime",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^4.7.0",
+    "shelljs": "^0.8.5",
+    "glob": "^10.4.5"
+  }
+}
