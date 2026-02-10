@@ -228,7 +228,7 @@ Runs ADOCodeReview automatically on **Azure DevOps Pull Requests** and posts res
 steps:
 - task: ADOCodeReview@2
   inputs:
-    api_key: $(OPENAI_API_KEY)
+    api_key: $(OPENAI_API_KEY) # Set the Key under a secret variable under Pipeline -> Library
 
     # OpenAI model (if NOT using Azure OpenAI)
     ai_model: 'gpt-5.1'   # start with a known-available model; change after verification
